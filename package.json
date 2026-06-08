@@ -1,0 +1,26 @@
+{
+  "name": "crondex",
+  "version": "0.1.0",
+  "description": "CLI para transformar prompts em tarefas agendadas no Linux.",
+  "type": "module",
+  "bin": {
+    "crondex": "dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "execa": "^9.6.0",
+    "fs-extra": "^11.3.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.1.0"
+  }
+}
