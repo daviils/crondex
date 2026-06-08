@@ -16,11 +16,11 @@ export class RunJobUseCase {
     const job = await this.jobRepository.findById(jobId);
 
     if (!job) {
-      throw new Error(`Job não encontrado: ${jobId}`);
+      throw new Error(`Job not found: ${jobId}`);
     }
 
     if (job.status === 'disabled') {
-      throw new Error(`Job desativado: ${jobId}`);
+      throw new Error(`Job disabled: ${jobId}`);
     }
 
     await this.logRepository.append(job.id, formatLogEntry(this.clock.now(), 'START'));
@@ -41,10 +41,10 @@ export class RunJobUseCase {
       formatLogEntry(
         result.finishedAt,
         'ERROR',
-        `${result.error ?? 'Erro desconhecido'}\ndurationMs=${durationMs}`,
+        `${result.error ?? 'Unknown error'}\ndurationMs=${durationMs}`,
       ),
     );
 
-    throw new Error(result.error ?? 'Falha ao executar job.');
+    throw new Error(result.error ?? 'Failed to execute job.');
   }
 }

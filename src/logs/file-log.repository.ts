@@ -10,6 +10,21 @@ export class FileLogRepository implements LogRepository {
     await fs.appendFile(this.getLogPath(jobId), content);
   }
 
+  async list(): Promise<string[]> {
+    const exists = await fs.pathExists(this.logsDir);
+
+    if (!exists) {
+      return [];
+    }
+
+    const entries = await fs.readdir(this.logsDir);
+
+    return entries
+      .filter((entry) => entry.endsWith('.log'))
+      .map((entry) => path.basename(entry, '.log'))
+      .sort();
+  }
+
   async read(jobId: string): Promise<string> {
     const logPath = this.getLogPath(jobId);
     const exists = await fs.pathExists(logPath);

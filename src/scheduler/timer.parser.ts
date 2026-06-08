@@ -17,11 +17,11 @@ export function parseDailySchedule(schedule: string): DailySchedule {
   const minute = Number(minuteValue);
 
   if (hour < 0 || hour > 23) {
-    throw new Error('Hora inválida. Use um valor entre 00 e 23.');
+    throw new Error('Invalid hour. Use a value between 00 and 23.');
   }
 
   if (minute < 0 || minute > 59) {
-    throw new Error('Minuto inválido. Use um valor entre 00 e 59.');
+    throw new Error('Invalid minute. Use a value between 00 and 59.');
   }
 
   return {

@@ -31,7 +31,7 @@ export class FileJobRepository implements JobRepository {
     const index = jobs.findIndex((currentJob) => currentJob.id === job.id);
 
     if (index === -1) {
-      throw new Error(`Job não encontrado: ${job.id}`);
+      throw new Error(`Job not found: ${job.id}`);
     }
 
     jobs[index] = job;
@@ -53,7 +53,7 @@ export class FileJobRepository implements JobRepository {
     const storedJobs = await fs.readJson(this.filePath);
 
     if (!Array.isArray(storedJobs)) {
-      throw new Error(`Arquivo de jobs inválido: ${this.filePath}`);
+      throw new Error(`Invalid jobs file: ${this.filePath}`);
     }
 
     return storedJobs.map((job: StoredJob) => ({
