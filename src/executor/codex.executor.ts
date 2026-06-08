@@ -1,13 +1,29 @@
 import { execa } from 'execa';
+import fs from 'node:fs';
+import path from 'node:path';
 import type { Executor } from './executor.interface.js';
 import type { ExecutionResult } from './execution-result.type.js';
 
 export class CodexExecutor implements Executor {
+  constructor(
+    private readonly workingDirectory = process.cwd(),
+    private readonly codexBinaryPath = resolveCodexBinaryPath(),
+  ) {}
+
   async execute(prompt: string): Promise<ExecutionResult> {
     const startedAt = new Date();
 
     try {
-      const result = await execa('codex', [prompt]);
+      const result = await execa(this.codexBinaryPath, [
+        'exec',
+        '--cd',
+        this.workingDirectory,
+        '--sandbox',
+        'workspace-write',
+        prompt,
+      ], {
+        stdin: 'ignore',
+      });
       const finishedAt = new Date();
 
       return {
@@ -28,4 +44,14 @@ export class CodexExecutor implements Executor {
       };
     }
   }
+}
+
+function resolveCodexBinaryPath(): string {
+  const siblingBinaryPath = path.join(path.dirname(process.execPath), 'codex');
+
+  if (fs.existsSync(siblingBinaryPath)) {
+    return siblingBinaryPath;
+  }
+
+  return 'codex';
 }

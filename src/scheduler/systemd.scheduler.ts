@@ -8,6 +8,7 @@ import { parseDailySchedule, toSystemdOnCalendar } from './timer.parser.js';
 export class SystemdScheduler implements Scheduler {
   constructor(
     private readonly entrypointPath: string,
+    private readonly workingDirectory: string,
     private readonly systemdUserDir = path.join(os.homedir(), '.config/systemd/user'),
   ) {}
 
@@ -47,6 +48,7 @@ export class SystemdScheduler implements Scheduler {
       '',
       '[Service]',
       'Type=oneshot',
+      `WorkingDirectory=${this.workingDirectory}`,
       `ExecStart=${quote(process.execPath)} ${quote(this.entrypointPath)} run ${jobId}`,
       '',
     ].join('\n');

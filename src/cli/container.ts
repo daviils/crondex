@@ -25,8 +25,8 @@ export function createContainer(entrypointPath: string, cwd = process.cwd()): Cl
   const clock = new SystemClock();
   const jobRepository = new FileJobRepository(path.join(cwd, 'jobs/jobs.json'));
   const logRepository = new FileLogRepository(path.join(cwd, 'logs'));
-  const scheduler = new SystemdScheduler(entrypointPath);
-  const executor = new CodexExecutor();
+  const scheduler = new SystemdScheduler(entrypointPath, cwd);
+  const executor = new CodexExecutor(cwd);
 
   return {
     createJobUseCase: new CreateJobUseCase(

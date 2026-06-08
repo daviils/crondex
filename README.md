@@ -13,7 +13,7 @@ crondex exec "search for AI news" --schedule="23:30"
 Available flows:
 
 - `crondex exec`: creates a job, stores it in `jobs/jobs.json`, and registers a systemd timer.
-- `crondex run`: runs an existing job using `codex "<prompt>"` and writes execution logs.
+- `crondex run`: runs an existing job using `codex exec "<prompt>"` and writes execution logs.
 - `crondex list`: lists registered jobs.
 - `crondex logs`: lists available logs or shows logs for a job.
 - `crondex disable`: disables a job and stops its systemd timer.

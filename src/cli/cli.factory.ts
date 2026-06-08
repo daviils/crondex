@@ -30,6 +30,7 @@ export function createCli(container: CliContainer): Command {
     .description('Runs an existing task.')
     .argument('<jobId>', 'Task identifier.')
     .action(async (jobId: string) => {
+      console.log(`Running job: ${jobId}`);
       await container.runJobUseCase.execute(jobId);
       console.log(`Job executed: ${jobId}`);
     });
