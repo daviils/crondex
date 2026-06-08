@@ -48,6 +48,7 @@ export class SystemdScheduler implements Scheduler {
       '',
       '[Service]',
       'Type=oneshot',
+      `Environment=${quoteSystemdEnvironmentAssignment('PATH', buildPathWithNode())}`,
       `WorkingDirectory=${this.workingDirectory}`,
       `ExecStart=${quote(process.execPath)} ${quote(this.entrypointPath)} run ${jobId}`,
       '',
@@ -88,4 +89,20 @@ export class SystemdScheduler implements Scheduler {
 
 function quote(value: string): string {
   return `"${value.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"`;
+}
+
+function quoteSystemdEnvironmentAssignment(name: string, value: string): string {
+  return quote(`${name}=${value.replaceAll('%', '%%')}`);
+}
+
+function buildPathWithNode(): string {
+  return [
+    path.dirname(process.execPath),
+    '/usr/local/sbin',
+    '/usr/local/bin',
+    '/usr/sbin',
+    '/usr/bin',
+    '/sbin',
+    '/bin',
+  ].join(path.delimiter);
 }

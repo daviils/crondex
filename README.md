@@ -26,6 +26,8 @@ Available flows:
 - npm
 - systemd with user services support (`systemctl --user`)
 - Codex CLI installed and available in the terminal as `codex`
+- If Node.js is installed with `nvm`, Crondex includes the current Node.js
+  binary directory in the generated systemd service `PATH`.
 
 Check your environment:
 

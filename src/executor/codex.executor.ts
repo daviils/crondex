@@ -8,6 +8,7 @@ export class CodexExecutor implements Executor {
   constructor(
     private readonly workingDirectory = process.cwd(),
     private readonly codexBinaryPath = resolveCodexBinaryPath(),
+    private readonly nodeBinaryDirectory = path.dirname(process.execPath),
   ) {}
 
   async execute(prompt: string): Promise<ExecutionResult> {
@@ -22,6 +23,9 @@ export class CodexExecutor implements Executor {
         'workspace-write',
         prompt,
       ], {
+        env: {
+          PATH: buildPathWithNode(this.nodeBinaryDirectory),
+        },
         stdin: 'ignore',
       });
       const finishedAt = new Date();
@@ -44,6 +48,10 @@ export class CodexExecutor implements Executor {
       };
     }
   }
+}
+
+function buildPathWithNode(nodeBinaryDirectory: string): string {
+  return [nodeBinaryDirectory, process.env.PATH].filter(Boolean).join(path.delimiter);
 }
 
 function resolveCodexBinaryPath(): string {
